@@ -87,6 +87,15 @@
     <ClInclude Include="cFrame.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="cTeapot.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="cHexagon.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="cSphere.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -141,6 +150,15 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="cFrame.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="cTeapot.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="cHexagon.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="cSphere.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

@@ -11,6 +11,7 @@
 #include "cMtlTex.h"
 #include "cAseLoader.h"
 #include "cFrame.h"
+#include "cHexagon.h"
 
 cMainGame::cMainGame(void)
 	: m_pGrid(NULL)
@@ -21,12 +22,15 @@ cMainGame::cMainGame(void)
 	, m_pIndexCube(NULL)
 	, m_pMesh(NULL)
 	, m_pAseRoot(NULL)
+	, m_pHexagon(NULL)
+	, time_n(0)
 {
 }
 
 
 cMainGame::~cMainGame(void)
 {
+	SAFE_DELETE(m_pHexagon)
 	SAFE_DELETE(m_pGrid);
 	SAFE_DELETE(m_pCamera);
 	SAFE_DELETE(m_pCubeMan);
@@ -60,6 +64,7 @@ cMainGame::~cMainGame(void)
 
 void cMainGame::Setup()
 {
+	timeSt = GetTickCount();
 	m_pIndexCube = new cIndexCube;
 	m_pIndexCube->Setup();
 
@@ -98,6 +103,9 @@ void cMainGame::Setup()
 
 	m_pCubeMan = new cCubeMan;
 	m_pCubeMan->Setup();
+
+	m_pHexagon = new cHexagon;
+	m_pHexagon->Setup(6, 20, 3);
 
 	m_pCamera = new cCamera;
 	m_pCamera->Setup();
@@ -142,10 +150,33 @@ void cMainGame::Setup()
 
 void cMainGame::Update()
 {
+	static bool isdown = true;
+	if (GetKeyState(VK_UP) & 0x8000)
+	{ 
+		if (isdown)
+		{
+			time_n++;
+			isdown = false;
+		}		
+	}
+	if (GetKeyState(VK_SPACE) & 0x8000)
+		isdown = true;
+
+	if (GetKeyState(VK_DOWN) & 0x8000)
+	{
+		if (isdown)
+		{
+			time_n--;
+			isdown = false;
+		}
+	}
+	m_pHexagon->Update();
 	m_pCubeMan->Update(m_pMap);
 	m_pCamera->Update();
 	if(m_pAseRoot)
 		m_pAseRoot->Update(NULL);
+
+	timeEnd = GetTickCount();
 
 }
 
@@ -163,7 +194,8 @@ void cMainGame::Render()
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 	m_pGrid->Render();
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
-	m_pAseRoot->Render();
+	//m_pAseRoot->Render();
+	m_pHexagon->Render();
 // 
 // 	D3DXMATRIXA16 matWorld;
 // 	D3DXMatrixIdentity(&matWorld);
@@ -212,12 +244,14 @@ void cMainGame::Render()
 // 	}
 // 	
 // 
-// 	RECT rc;
-// 	SetRect(&rc, 100, 100, 101, 101);
-// 	char szTemp[1024];
-// 	sprintf(szTemp, "%d / %d", dwGroup , dwMesh);
-// 	m_pFont->DrawTextA(NULL, szTemp, strlen(szTemp),
-// 		&rc, DT_LEFT | DT_TOP | DT_NOCLIP, D3DCOLOR_XRGB(255,0,0));
+	
+	
+ 	RECT rc;
+ 	SetRect(&rc, 100, 100, 101, 101);
+ 	char szTemp[1024];
+	sprintf(szTemp, "%d", time_n);
+ 	m_pFont->DrawTextA(NULL, szTemp, strlen(szTemp),
+ 		&rc, DT_LEFT | DT_TOP | DT_NOCLIP, D3DCOLOR_XRGB(255,0,0));
 
 
 	g_pD3DDevice->EndScene();

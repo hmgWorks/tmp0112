@@ -9,6 +9,7 @@ class iMap;
 class cIndexCube;
 class cMtlTex;
 class cFrame;
+class cHexagon;
 
 class cMainGame
 {
@@ -25,6 +26,10 @@ private:
 	LPD3DXMESH				m_pMesh;
 	std::vector<cMtlTex*>	m_vecMtlTex;
 
+	cHexagon*				m_pHexagon;
+
+	DWORD timeEnd, timeSt;
+	int time_n;
 public:
 	cMainGame(void);
 	~cMainGame(void);
