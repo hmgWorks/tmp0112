@@ -105,7 +105,7 @@ void cMainGame::Setup()
 	m_pCubeMan->Setup();
 
 	m_pHexagon = new cHexagon;
-	m_pHexagon->Setup(6, 20, 3);
+	m_pHexagon->Setup(6, 15, 5);
 
 	m_pCamera = new cCamera;
 	m_pCamera->Setup();
