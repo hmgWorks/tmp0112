@@ -8,6 +8,7 @@ cHexagon::cHexagon()
 	, m_pIB(NULL)
 	, m_pTeapot(NULL)
 	, m_pTeapot2(NULL)
+	, m_time3(0)
 	
 {
 }
@@ -25,7 +26,7 @@ cHexagon::~cHexagon()
 
 void cHexagon::Setup(int num, int length, float time)
 {
-	//m_st = GetTickCount();
+	
 	
 	float angle = 0.0f;
 	ST_PC_VERTEX v;
@@ -53,21 +54,15 @@ void cHexagon::Setup(int num, int length, float time)
 		D3DXVec3TransformCoord(&v.p, &vertex, &matWorld);
 		m_vecListVertex.push_back(v);
 
-	}
-
-	//D3DXVECTOR3 mmm =  m_vecSphere[1]->GetPosition() - m_vecSphere[0]->GetPosition();
-	//m_pTeapot->SetForward(mmm);
-	//index
-	/*for (int i = 0; i < m_vecListVertex.size(); i++)
-	{
-
-	}*/
+	}	
 	m_vecLineIndex = { 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 0 };
+	
 	D3DXVECTOR3 vv = m_vecListVertex[1].p - m_vecListVertex[0].p;
 	float len = D3DXVec3Length(&vv);
 	m_time = len / ((1000 * time) / 7);
 	m_time2 = len / ((1000 * time) / 3.5);
-
+	m_time3 = (1000 * time) / num;
+	
 	ZeroMemory(&m_stMtl, sizeof(D3DMATERIAL9));
 	m_stMtl.Ambient = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
 	m_stMtl.Diffuse = D3DXCOLOR(0.7f, 0.7f, 0.7f, 1.0f);
@@ -94,12 +89,21 @@ void cHexagon::Setup(int num, int length, float time)
 		memcpy(ib, &m_vecLineIndex[0], m_vecLineIndex.size()*sizeof(WORD));
 	}
 	m_pIB->Unlock();
+	
+	m_st = GetTickCount();
+
 }
 
-void cHexagon::Update()
+void cHexagon::Update(float delta)
 {		
-	//m_end = GetTickCount();
-	
+	m_end = GetTickCount();
+	float tic = (float)m_end - (float)m_st;
+	static float time_sum =0;
+	float aa = 30.0f/m_time3;
+	if (tic > 1.0f)
+	{
+		m_st = GetTickCount();
+	}
 	static float n = 0;
 	static float nn = 0;
 	n +=  m_time;
@@ -145,6 +149,7 @@ void cHexagon::Update()
 
 void cHexagon::Render()
 {		
+	
 	D3DXMATRIXA16 mat;
 	D3DXMatrixIdentity(&mat);
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &mat);

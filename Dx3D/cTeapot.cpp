@@ -29,32 +29,19 @@ void cTeapot::Setup(D3DXMATRIXA16& mat, D3DXCOLOR color)
 
 void cTeapot::Update(D3DXMATRIXA16& matT, D3DXVECTOR3 vt, D3DXVECTOR3 dir)
 {
-	//D3DXVECTOR3 perv = m_vPosition;
-	//static int n = 0;
-	//D3DXVec3TransformCoord(&m_vPosition, &D3DXVECTOR3(0,0,0), &m_matWorld);
-	//float ang = D3DXVec3Dot(&D3DXVECTOR3(1, 0, 0), &vt);
+	D3DXMATRIXA16 matTT, matR;
 	D3DXVECTOR3 v1 = D3DXVECTOR3(1,0,0);
 	D3DXVECTOR3 v2 = dir;
-	//float aaa = (v1.x * v2.y - v1.y * v2.x);// >= 0);
 	D3DXVec3Normalize(&v1, &v1);
 	D3DXVec3Normalize(&v2, &v2);	
-	float ang = D3DXVec3Dot(&v1, &v2);
-	
-	//float lenA = D3DXVec3Length(&vt);
-	//float lenB = D3DXVec3Length(&D3DXVECTOR3(1, 0, 0));
+	float dot = D3DXVec3Dot(&v1, &v2);
 
-	float ang3 = acosf(ang/(D3DXVec3Length(&v1)*D3DXVec3Length(&v2)));
+	float angle = acosf(dot);	
 	
-	
-	ang3 = (v1.x * v2.y - v1.y * v2.x >= 0) ? ang3 : /*(2*D3DX_PI)+ */ang3 =(D3DX_PI /2);
-	D3DXMATRIXA16 matTT, matR;
-	D3DXMatrixRotationY(&matR, ang3);
-	//m_matWorld *= matR;
-	//D3DXMatrixTranslation(&m_matWorld, vt.x, vt.y, vt.z);
+	angle = (v1.x * v2.z - v1.z * v2.x < 0) ? angle : 2 * D3DX_PI - angle;
+	D3DXMatrixRotationY(&matR, angle);
 	D3DXMatrixTranslation(&matTT, vt.x, vt.y, vt.z);
 	m_matWorld = matR*matTT;
-	//m_matWorld = matR * m_matWorld;
-	//n += 5;
 }
 
 void cTeapot::Render()

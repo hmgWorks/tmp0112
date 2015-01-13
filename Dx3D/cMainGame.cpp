@@ -155,7 +155,7 @@ void cMainGame::Setup()
 void cMainGame::Update()
 {
 	//if (timeC != 0)
-	m_pHexagon->Update();
+	m_pHexagon->Update(30.0f/1000.0f);
 	m_pCubeMan->Update(m_pMap);
 	m_pCamera->Update();
 	if(m_pAseRoot)

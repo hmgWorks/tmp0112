@@ -16,14 +16,14 @@ private:
 	D3DXMATRIXA16				m_matWorld, m_matT;
 	cTeapot*					m_pTeapot, *m_pTeapot2;
 	float						m_fT;
-	float						m_time, m_time2;
+	float						m_time, m_time2,m_time3;
 	DWORD						m_st, m_end;
 public:
 	cHexagon();
 	~cHexagon();
 
 	void Setup(int num, int length, float time);
-	void Update();
+	void Update(float delta);
 	void Render();
 	D3DXVECTOR3 LinearInterpolation(D3DXVECTOR3& vecP0, D3DXVECTOR3& vecP1, float n);
 	D3DXVECTOR3 BezierInterpolation(D3DXVECTOR3& vecP0, D3DXVECTOR3& vecP1, D3DXVECTOR3& vecP2,float n);
