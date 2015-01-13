@@ -8,6 +8,7 @@ cHexagon::cHexagon()
 	, m_pIB(NULL)
 	, m_pTeapot(NULL)
 	, m_pTeapot2(NULL)
+	
 {
 }
 
@@ -64,8 +65,8 @@ void cHexagon::Setup(int num, int length, float time)
 	m_vecLineIndex = { 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 0 };
 	D3DXVECTOR3 vv = m_vecListVertex[1].p - m_vecListVertex[0].p;
 	float len = D3DXVec3Length(&vv);
-	m_time = len / ((1000 * time) / num);
-	m_time2 = len / ((1000 * time) / 3);
+	m_time = len / ((1000 * time) / 7);
+	m_time2 = len / ((1000 * time) / 3.5);
 
 	ZeroMemory(&m_stMtl, sizeof(D3DMATERIAL9));
 	m_stMtl.Ambient = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);

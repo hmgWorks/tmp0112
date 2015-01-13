@@ -27,7 +27,7 @@ private:
 	std::vector<cMtlTex*>	m_vecMtlTex;
 
 	cHexagon*				m_pHexagon;
-
+	int timeSet, timeC;
 	DWORD timeEnd, timeSt;
 	int time_n;
 public:

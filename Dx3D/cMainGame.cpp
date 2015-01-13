@@ -24,6 +24,8 @@ cMainGame::cMainGame(void)
 	, m_pAseRoot(NULL)
 	, m_pHexagon(NULL)
 	, time_n(0)
+	, timeSet(0)
+	, timeEnd(0), timeSt(0), timeC(0)
 {
 }
 
@@ -104,8 +106,10 @@ void cMainGame::Setup()
 	m_pCubeMan = new cCubeMan;
 	m_pCubeMan->Setup();
 
+	timeSet = 5;
+	timeC = timeSet;
 	m_pHexagon = new cHexagon;
-	m_pHexagon->Setup(6, 15, 5);
+	m_pHexagon->Setup(6, 15, timeSet);
 
 	m_pCamera = new cCamera;
 	m_pCamera->Setup();
@@ -150,26 +154,7 @@ void cMainGame::Setup()
 
 void cMainGame::Update()
 {
-	static bool isdown = true;
-	if (GetKeyState(VK_UP) & 0x8000)
-	{ 
-		if (isdown)
-		{
-			time_n++;
-			isdown = false;
-		}		
-	}
-	if (GetKeyState(VK_SPACE) & 0x8000)
-		isdown = true;
-
-	if (GetKeyState(VK_DOWN) & 0x8000)
-	{
-		if (isdown)
-		{
-			time_n--;
-			isdown = false;
-		}
-	}
+	//if (timeC != 0)
 	m_pHexagon->Update();
 	m_pCubeMan->Update(m_pMap);
 	m_pCamera->Update();
@@ -177,7 +162,11 @@ void cMainGame::Update()
 		m_pAseRoot->Update(NULL);
 
 	timeEnd = GetTickCount();
-
+	if(timeC > 0)
+	{
+		timeC = timeSet - (int)((timeEnd - timeSt) / 1000);
+		//timeC = 0;
+	}
 }
 
 void cMainGame::Render()
@@ -195,6 +184,8 @@ void cMainGame::Render()
 	m_pGrid->Render();
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 	//m_pAseRoot->Render();
+	
+	
 	m_pHexagon->Render();
 // 
 // 	D3DXMATRIXA16 matWorld;
@@ -249,7 +240,7 @@ void cMainGame::Render()
  	RECT rc;
  	SetRect(&rc, 100, 100, 101, 101);
  	char szTemp[1024];
-	sprintf(szTemp, "%d", time_n);
+	sprintf(szTemp, "%d sec...", timeC);
  	m_pFont->DrawTextA(NULL, szTemp, strlen(szTemp),
  		&rc, DT_LEFT | DT_TOP | DT_NOCLIP, D3DCOLOR_XRGB(255,0,0));
 
