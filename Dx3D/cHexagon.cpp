@@ -61,7 +61,7 @@ void cHexagon::Setup(int num, int length, float time)
 	float len = D3DXVec3Length(&vv);
 	m_time = len / ((1000 * time) / 7);
 	m_time2 = len / ((1000 * time) / 3.5);
-	m_time3 = (1000 * time) / num;
+//	m_time3 = (1000 * time) / num;
 	
 	ZeroMemory(&m_stMtl, sizeof(D3DMATERIAL9));
 	m_stMtl.Ambient = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
@@ -90,20 +90,22 @@ void cHexagon::Setup(int num, int length, float time)
 	}
 	m_pIB->Unlock();
 	
-	m_st = GetTickCount();
+	//m_st = GetTickCount();
 
 }
 
 void cHexagon::Update(float delta)
 {		
-	m_end = GetTickCount();
-	float tic = (float)m_end - (float)m_st;
-	static float time_sum =0;
-	float aa = 30.0f/m_time3;
-	if (tic > 1.0f)
-	{
-		m_st = GetTickCount();
-	}
+	//m_end = GetTickCount();
+	//float tic = (float)m_end - (float)m_st;
+	//static float time_sum =0;
+	//float aa = 30.0f/m_time3;
+	//float ggg = tic / 1000.0f;
+	//if (ggg > 1.0f)
+	//{
+	//	m_st = GetTickCount();
+	//	tic = (float)m_end - (float)m_st;
+	//}
 	static float n = 0;
 	static float nn = 0;
 	n +=  m_time;
@@ -142,7 +144,7 @@ void cHexagon::Update(float delta)
 	D3DXVECTOR3 dir3 = dir2 - dir1;
 
 	m_pTeapot->Update(m_matT,
-		LinearInterpolation(m_vecListVertex[i].p, m_vecListVertex[j].p, n),dir);
+		LinearInterpolation(m_vecListVertex[i].p, m_vecListVertex[j].p, n), dir);
 	m_pTeapot2->Update(m_matT,
 		BezierInterpolation(m_vecListVertex[ii].p, m_vecListVertex[jj].p,	m_vecListVertex[kk].p,nn),dir3);
 }

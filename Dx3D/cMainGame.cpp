@@ -106,7 +106,7 @@ void cMainGame::Setup()
 	m_pCubeMan = new cCubeMan;
 	m_pCubeMan->Setup();
 
-	timeSet = 5;
+	timeSet = 10;
 	timeC = timeSet;
 	m_pHexagon = new cHexagon;
 	m_pHexagon->Setup(6, 15, timeSet);
